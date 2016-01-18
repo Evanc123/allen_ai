@@ -37,14 +37,15 @@ def get_keyword_from_url_topic(url_topic):
     return lst_url
 
 
-def get_save_wiki_docs(keywords, save_folder = 'data/wiki_data/'):
+def get_save_wiki_docs(keywords, save_folder):
     
     ensure_dir(save_folder)
     
     n_total = len(keywords)
     for i, kw in enumerate(keywords):
-        kw = kw.lower()
+        kw = kw.lower().replace("/", '').replace("\\", '')
         print i, n_total, i * 1.0 / n_total, kw
+        content = ''
         try:
             content = wiki.page(kw).content.encode('ascii', 'ignore')
         except wiki.exceptions.DisambiguationError as e:
@@ -54,7 +55,7 @@ def get_save_wiki_docs(keywords, save_folder = 'data/wiki_data/'):
         if not content:
             continue
         with open(os.path.join(save_folder, '_'.join(kw.split()) + '.txt'), 'w') as f:
-                f.write(content)
+            f.write(content)
 
         
         
@@ -70,6 +71,7 @@ def get_docstf_idf(dir_data):
         dd = {}
         total_w = 0
         path = os.path.join(dir_data, fname)
+        print fname
         for index, line in enumerate(open(path)):
             lst = tokenize(line)
             for word in lst:

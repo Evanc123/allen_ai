@@ -6,6 +6,8 @@ import argparse
 from utils import tokenize
 
 
+#TODO implement doc2vec indexing 
+
 def predict_answers(data, word2vec, N):
 
     stop = stopwords.words('english')
@@ -63,7 +65,7 @@ if __name__ == '__main__':
     
     #read glove
     word2vec = {}
-    with open("data/glove/glove.6B." + str(args.N) + "d.txt") as f:
+    with open("data/glove/glove.840B." + str(args.N) + "d.txt") as f:
         for line in f:    
             l = line.split()
             word2vec[l[0]] = map(float, l[1:])
